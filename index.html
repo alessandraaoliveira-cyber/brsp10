@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anatomia de um Acidente – Transpaleteira · BRSP10</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --yellow:#FFE600; --black:#121212; --dark:#1A1A1A;
+  --panel:#222; --border:#2E2E2E; --red:#E02020; --green:#00A650;
+  --white:#FFFFFF; --gray:#888;
+  --font:'Montserrat',sans-serif; --body:'Roboto',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:var(--font)}
+
+/* SLIDE ENGINE */
+.deck{width:100vw;height:100vh;position:relative}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .4s;overflow:hidden}
+.slide.active{opacity:1;pointer-events:all}
+
+/* NAV */
+.nav{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:14px;z-index:1000;
+  background:rgba(0,0,0,.75);backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.1);border-radius:50px;
+  padding:10px 22px;
+}
+.nav-btn{background:none;border:none;color:var(--white);font-size:18px;cursor:pointer;
+  width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.nav-btn:hover{background:rgba(255,230,0,.15);color:var(--yellow)}
+.nav-counter{font-size:11px;letter-spacing:2px;color:var(--gray);min-width:52px;text-align:center}
+.nav-dots{display:flex;gap:6px}
+.nav-dot{width:6px;height:6px;border-radius:50%;background:var(--border);cursor:pointer;transition:all .2s}
+.nav-dot.active{background:var(--yellow);transform:scale(1.4)}
+.key-hint{position:fixed;top:18px;right:22px;z-index:999;font-size:10px;letter-spacing:2px;color:rgba(255,255,255,.2)}
+
+/* ANIMATIONS */
+.anim{opacity:0;transform:translateY(18px)}
+.slide.active .anim{animation:up .5s ease forwards}
+.slide.active .anim:nth-child(2){animation-delay:.1s}
+.slide.active .anim:nth-child(3){animation-delay:.2s}
+.slide.active .anim:nth-child(4){animation-delay:.3s}
+.slide.active .anim:nth-child(5){animation-delay:.4s}
+.slide.active .anim:nth-child(6){animation-delay:.5s}
+@keyframes up{to{opacity:1;transform:translateY(0)}}
+
+/* ═══ SLIDE 1 · CAPA ═══ */
+#s1{background:var(--black);justify-content:center;align-items:flex-start;position:relative}
+#s1 .bg-grid{position:absolute;inset:0;
+  background-image:repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(255,255,255,.025) 39px,rgba(255,255,255,.025) 40px),
+  repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(255,255,255,.025) 39px,rgba(255,255,255,.025) 40px)}
+#s1 .stripe{position:absolute;top:0;right:0;width:40%;height:100%;background:var(--yellow);
+  clip-path:polygon(18% 0,100% 0,100% 100%,0% 100%)}
+#s1 .s1c{position:relative;z-index:2;padding:60px 70px;max-width:62%;height:100%;display:flex;flex-direction:column;justify-content:center;gap:0}
+#s1 .eyebrow{font-size:10px;letter-spacing:5px;color:var(--yellow);text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:12px}
+#s1 .eyebrow::before{content:'';width:28px;height:2px;background:var(--yellow)}
+#s1 h1{font-size:clamp(36px,5vw,62px);font-weight:900;line-height:1;color:var(--white);text-transform:uppercase;letter-spacing:-1px;margin-bottom:30px}
+#s1 h1 em{color:var(--yellow);font-style:normal;display:block}
+#s1 .meta{display:flex;flex-direction:column;gap:9px;margin-bottom:32px}
+#s1 .meta-item{display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,.6)}
+#s1 .meta-item strong{color:var(--white);font-weight:600}
+#s1 .meta-item::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--yellow);flex-shrink:0}
+#s1 .disc{font-size:11px;color:rgba(255,255,255,.3);line-height:1.7;border-top:1px solid rgba(255,255,255,.08);padding-top:18px;max-width:460px}
+#s1 .badge{position:absolute;top:44px;right:44px;z-index:3;background:var(--red);color:#fff;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:6px 16px;font-weight:700}
+
+/* ═══ SLIDE 2 · VÍDEO ═══ */
+#s2{background:#0a0a0a;flex-direction:column}
+#s2 .s2-top{
+  background:var(--yellow);padding:22px 60px;flex-shrink:0;
+  display:flex;align-items:center;gap:20px;
+}
+#s2 .s2-top .t-num{font-size:48px;font-weight:900;color:var(--black);opacity:.2;line-height:1;min-width:60px}
+#s2 .s2-top .t-titles .t-eye{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(0,0,0,.5);font-weight:700}
+#s2 .s2-top .t-titles .t-title{font-size:clamp(18px,2.5vw,26px);font-weight:900;color:var(--black);text-transform:uppercase}
+#s2 .s2-body{flex:1;display:flex;overflow:hidden}
+#s2 .vid-wrap{flex:1.4;background:#000;position:relative;display:flex;align-items:center;justify-content:center}
+#s2 .vid-wrap video{width:100%;height:100%;object-fit:contain;max-height:100%}
+#s2 .vid-cap{
+  position:absolute;bottom:0;left:0;right:0;
+  background:rgba(0,0,0,.8);padding:10px 18px;
+  font-size:11px;letter-spacing:2px;color:var(--gray);text-transform:uppercase;
+  display:flex;align-items:center;gap:8px;
+}
+#s2 .vid-cap .dot{width:7px;height:7px;border-radius:50%;background:var(--red);animation:pulse 1.5s infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+#s2 .obs-panel{
+  width:260px;flex-shrink:0;background:var(--dark);border-left:1px solid var(--border);
+  padding:28px 22px;display:flex;flex-direction:column;gap:12px;overflow-y:auto;
+}
+#s2 .obs-label{font-size:9px;letter-spacing:3px;color:var(--yellow);text-transform:uppercase;font-weight:700;margin-bottom:4px}
+#s2 .obs-item{background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--yellow);padding:12px 14px}
+#s2 .obs-num{font-size:24px;font-weight:900;color:var(--yellow);opacity:.2;line-height:1;margin-bottom:4px}
+#s2 .obs-text{font-size:12px;color:#bbb;line-height:1.5}
+
+/* ═══ SLIDE 3 · SEQUÊNCIA ═══ */
+#s3{background:var(--black);flex-direction:column}
+#s3 .s3-top{background:var(--yellow);padding:22px 60px;flex-shrink:0;display:flex;align-items:center;gap:20px}
+#s3 .s3-top .t-num{font-size:48px;font-weight:900;color:var(--black);opacity:.2;line-height:1;min-width:60px}
+#s3 .s3-top .t-eye{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(0,0,0,.5);font-weight:700}
+#s3 .s3-top .t-title{font-size:clamp(18px,2.5vw,26px);font-weight:900;color:var(--black);text-transform:uppercase}
+#s3 .s3-body{flex:1;padding:16px 32px 80px;display:grid;grid-template-columns:1fr 1fr;gap:3px;overflow:hidden}
+.seq-item{position:relative;overflow:hidden;background:#000}
+.seq-item img{width:100%;height:100%;object-fit:cover;transition:transform .4s;cursor:zoom-in}
+.seq-item:hover img{transform:scale(1.04)}
+.seq-ov{
+  position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(to top,rgba(0,0,0,.97) 0%,rgba(0,0,0,.7) 60%,transparent 100%);
+  padding:36px 14px 12px;
+}
+.seq-time{font-family:var(--font);font-size:11px;font-weight:700;letter-spacing:1px;color:var(--yellow);margin-bottom:3px}
+.seq-desc{font-family:var(--body);font-size:10px;color:#ddd;line-height:1.4}
+.seq-item.crit .seq-ov{background:linear-gradient(to top,rgba(100,0,0,.95) 0%,transparent 100%)}
+.seq-item.crit .seq-time{color:#ff6b6b}
+
+/* ═══ SLIDE 4 · ZOOM ═══ */
+#s4{background:var(--black);flex-direction:column}
+#s4 .s4-top{background:var(--red);padding:22px 60px;flex-shrink:0;display:flex;align-items:center;gap:20px}
+#s4 .s4-top .t-num{font-size:48px;font-weight:900;color:rgba(255,255,255,.15);line-height:1;min-width:60px}
+#s4 .s4-top .t-eye{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.5);font-weight:700}
+#s4 .s4-top .t-title{font-size:clamp(18px,2.5vw,26px);font-weight:900;color:#fff;text-transform:uppercase}
+#s4 .s4-body{flex:1;display:grid;grid-template-columns:1fr 1.5fr;gap:0;overflow:hidden}
+#s4 .s4-left{padding:32px 36px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:16px;justify-content:center}
+#s4 .s4-left img{width:100%;border:1px solid var(--border)}
+#s4 .s4-left .cap{font-size:10px;letter-spacing:2px;color:var(--gray);text-transform:uppercase}
+#s4 .s4-right{padding:32px 36px;display:flex;flex-direction:column;gap:16px;justify-content:center;background:rgba(220,30,30,.04)}
+#s4 .s4-right img{width:100%;border:2px solid var(--red);box-shadow:0 0 30px rgba(220,30,30,.2)}
+#s4 .s4-right .cap{font-size:10px;letter-spacing:2px;color:var(--red);text-transform:uppercase}
+#s4 .s4-note{
+  padding:14px 22px;background:rgba(220,30,30,.08);
+  border-top:1px solid rgba(220,30,30,.2);
+  font-family:var(--body);font-size:13px;color:#ccc;line-height:1.6;flex-shrink:0;
+}
+#s4 .s4-note strong{color:var(--red)}
+
+/* ═══ SLIDE 5 · ANÁLISE ═══ */
+#s5{background:var(--dark);flex-direction:row}
+#s5 .s5-left{width:36%;background:var(--yellow);padding:56px 44px;display:flex;flex-direction:column;justify-content:center;gap:24px;flex-shrink:0}
+#s5 .s5-left h2{font-size:clamp(26px,3vw,40px);font-weight:900;color:var(--black);text-transform:uppercase;line-height:1.05}
+#s5 .s5-data{display:flex;flex-direction:column;gap:10px}
+#s5 .s5-row{display:flex;flex-direction:column;gap:2px;border-bottom:1px solid rgba(0,0,0,.15);padding-bottom:10px}
+#s5 .s5-row-lbl{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(0,0,0,.5);font-weight:700}
+#s5 .s5-row-val{font-size:13px;font-weight:700;color:var(--black)}
+#s5 .s5-row-val.danger{color:var(--red)}
+#s5 .s5-right{flex:1;padding:52px 52px;display:flex;flex-direction:column;justify-content:center;gap:20px;overflow-y:auto}
+#s5 .s5-sec-lbl{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--yellow);margin-bottom:10px;font-weight:700}
+#s5 .s5-text{font-family:var(--body);font-size:14px;color:rgba(255,255,255,.8);line-height:1.8}
+#s5 .s5-text strong{color:var(--white)}
+.pot-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.pot-chip{background:rgba(224,32,32,.1);border:1px solid rgba(224,32,32,.3);color:#f87171;font-size:11px;padding:5px 12px;display:flex;align-items:center;gap:6px}
+.pot-chip::before{content:'⚠';font-size:12px}
+
+/* ═══ SLIDE 6 · BARREIRAS ═══ */
+#s6{background:var(--black);flex-direction:column}
+#s6 .s6-top{background:var(--yellow);padding:22px 60px;flex-shrink:0;display:flex;align-items:center;gap:20px}
+#s6 .s6-top .t-num{font-size:48px;font-weight:900;color:var(--black);opacity:.2;line-height:1;min-width:60px}
+#s6 .s6-top .t-eye{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(0,0,0,.5);font-weight:700}
+#s6 .s6-top .t-title{font-size:clamp(18px,2.5vw,26px);font-weight:900;color:var(--black);text-transform:uppercase}
+#s6 .s6-body{flex:1;padding:16px 40px;display:flex;flex-direction:column;gap:8px;overflow-y:auto;justify-content:flex-start}
+.barrier{border:1px solid var(--border);overflow:hidden;transition:border-color .2s}
+.barrier:hover{border-color:rgba(255,230,0,.3)}
+.barrier-hd{display:flex;align-items:center;gap:12px;padding:10px 18px;background:rgba(255,230,0,.04);border-bottom:1px solid var(--border)}
+.b-num{font-size:28px;font-weight:900;color:var(--yellow);opacity:.2;line-height:1;min-width:36px}
+.b-title{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--white)}
+.barrier-bd{display:grid;grid-template-columns:1fr 1fr}
+.b-col{padding:12px 18px}
+.b-col:first-child{border-right:1px solid var(--border)}
+.b-col-hd{font-size:9px;letter-spacing:3px;text-transform:uppercase;padding:3px 8px;display:inline-block;margin-bottom:10px;border:1px solid}
+.b-col-hd.w{color:var(--red);border-color:rgba(224,32,32,.3);background:rgba(224,32,32,.07)}
+.b-col-hd.r{color:var(--green);border-color:rgba(0,166,80,.3);background:rgba(0,166,80,.07)}
+.b-col p{font-size:12px;color:#999;line-height:1.5}
+.b-list{list-style:none;display:flex;flex-direction:column;gap:6px;margin-top:2px}
+.b-list li{font-size:12px;color:var(--white);display:flex;align-items:flex-start;gap:8px;line-height:1.4}
+.b-list li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0}
+
+/* ═══ SLIDE 7 · SEQUÊNCIA CORRETA ═══ */
+#s7{background:var(--dark);flex-direction:column}
+#s7 .s7-top{background:var(--yellow);padding:22px 60px;flex-shrink:0;display:flex;align-items:center;gap:20px}
+#s7 .s7-top .t-num{font-size:48px;font-weight:900;color:var(--black);opacity:.2;line-height:1;min-width:60px}
+#s7 .s7-top .t-eye{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(0,0,0,.5);font-weight:700}
+#s7 .s7-top .t-title{font-size:clamp(18px,2.5vw,26px);font-weight:900;color:var(--black);text-transform:uppercase}
+#s7 .s7-body{flex:1;padding:28px 52px;display:grid;grid-template-columns:repeat(5,1fr);gap:10px;overflow:hidden;align-content:center}
+.step-card{background:var(--panel);border:1px solid var(--border);padding:20px 16px 16px 56px;position:relative;transition:background .2s,border-color .2s}
+.step-card:hover{background:#272727;border-color:rgba(255,230,0,.3)}
+.step-card.prep{border-top:3px solid var(--yellow)}
+.step-card.exec{border-top:3px solid #3b82f6}
+.step-card.react{border-top:3px solid var(--red)}
+.step-card.resume{border-top:3px solid var(--green)}
+.step-n{position:absolute;left:12px;top:10px;font-size:34px;font-weight:900;color:var(--yellow);opacity:.15;line-height:1}
+.step-txt{font-family:var(--body);font-size:13px;line-height:1.5;color:var(--white)}
+.step-tag{font-size:8px;letter-spacing:2px;text-transform:uppercase;padding:2px 6px;display:inline-block;margin-top:8px;border:1px solid}
+.step-tag.prep{color:var(--yellow);border-color:rgba(255,230,0,.25);background:rgba(255,230,0,.06)}
+.step-tag.exec{color:#60a5fa;border-color:rgba(96,165,250,.25);background:rgba(96,165,250,.06)}
+.step-tag.react{color:var(--red);border-color:rgba(224,32,32,.25);background:rgba(224,32,32,.06)}
+.step-tag.resume{color:var(--green);border-color:rgba(0,166,80,.25);background:rgba(0,166,80,.06)}
+
+/* ═══ SLIDE 8 · MENSAGEM FINAL ═══ */
+#s8{background:var(--yellow)!important;justify-content:center;align-items:center;text-align:center;position:relative;overflow:hidden}
+
+
+
+
+
+
+
+
+/* LIGHTBOX */
+.lightbox{
+  display:none;position:fixed;inset:0;z-index:9999;
+  background:rgba(0,0,0,.95);
+  align-items:center;justify-content:center;
+  cursor:zoom-out;
+}
+.lightbox.open{display:flex;}
+.lightbox img{
+  max-width:92vw;max-height:90vh;
+  object-fit:contain;
+  box-shadow:0 0 60px rgba(0,0,0,.8);
+  border:1px solid rgba(255,255,255,.1);
+  animation:lbIn .25s ease;
+}
+@keyframes lbIn{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+.lb-close{
+  position:fixed;top:20px;right:28px;
+  font-size:32px;color:rgba(255,255,255,.6);
+  cursor:pointer;line-height:1;z-index:10000;
+  transition:color .2s;
+}
+.lb-close:hover{color:#fff;}
+
+#s8 .s8-thankyou{
+  font-size:clamp(18px,2.5vw,28px);font-weight:900;
+  color:#000;letter-spacing:4px;text-transform:uppercase;
+  margin-bottom:12px;opacity:.6;
+}
+#s8 .s8-divider{
+  width:80px;height:4px;background:#000;opacity:.25;
+  margin:0 auto 28px;
+}
+#s8 .s8-eye{font-size:10px;letter-spacing:5px;text-transform:uppercase;color:rgba(0,0,0,.45);margin-bottom:16px;font-weight:700}
+#s8 .s8-quote{font-size:clamp(28px,4.5vw,56px);font-weight:900;color:#000;line-height:1.05;text-transform:uppercase;letter-spacing:-1px;margin-bottom:24px}
+#s8 .s8-sub{font-family:var(--body);font-size:clamp(13px,1.4vw,16px);color:rgba(0,0,0,.65);max-width:560px;line-height:1.75;margin:0 auto 28px}
+#s8 .s8-code{font-size:10px;letter-spacing:3px;color:rgba(0,0,0,.35);text-transform:uppercase}
+#s8 .s8c{position:relative;z-index:2;padding:48px 60px;max-width:820px;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- SLIDE 1 · CAPA -->
+<div class="slide active" id="s1">
+  <div class="bg-grid"></div>
+  <div class="stripe"></div>
+  <div class="badge">ACIDENTE COM LESÃO</div>
+  <div class="s1c">
+    <div class="eyebrow anim">BRSP10 · 05/06/2026</div>
+    <h1 class="anim">Anatomia<br>de um<br><em>Acidente</em></h1>
+    <div class="meta anim">
+      <div class="meta-item"><strong>Máquina:</strong> Transpaleteira Elétrica</div>
+      <div class="meta-item"><strong>Local:</strong> BRSP10 · Área de Resíduos</div>
+      <div class="meta-item"><strong>Data / Hora:</strong> 05/06/2026 · 00h21min</div>
+      <div class="meta-item"><strong>Câmera:</strong> DC-000 · Lateral</div>
+    </div>
+    <div class="disc anim">
+      Material de finalidade exclusivamente didática. Nenhum colaborador é identificado neste conteúdo.
+      Uso restrito ao ambiente interno do Mercado Livre.
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 2 · VÍDEO -->
+<div class="slide" id="s2">
+  <div class="s2-top">
+    <div class="t-num">01</div>
+    <div class="t-titles">
+      <div class="t-eye">Etapa 01</div>
+      <div class="t-title">O Que Aconteceu? · Assista ao Evento</div>
+    </div>
+  </div>
+  <div class="s2-body">
+    <div class="vid-wrap">
+      <video id="mainVid" controls preload="metadata"></video>
+      <div class="vid-cap"><span class="dot"></span>DC-000 · Lateral · BRSP10 · 2026-06-05 · 00h20min</div>
+    </div>
+    <div class="obs-panel">
+      <div class="obs-label">Observe durante o vídeo</div>
+      <div class="obs-item anim"><div class="obs-num">01</div><div class="obs-text">Condições da operação</div></div>
+      <div class="obs-item anim"><div class="obs-num">02</div><div class="obs-text">Posicionamento da carga</div></div>
+      <div class="obs-item anim"><div class="obs-num">03</div><div class="obs-text">Comportamento da operadora</div></div>
+      <div class="obs-item anim"><div class="obs-num">04</div><div class="obs-text">Momento da perda de estabilidade</div></div>
+      <div class="obs-item anim"><div class="obs-num">05</div><div class="obs-text">Reação após a anormalidade</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 3 · SEQUÊNCIA DO EVENTO -->
+<div class="slide" id="s3">
+  <div class="s3-top">
+    <div class="t-num">02</div>
+    <div>
+      <div class="t-eye">Etapa 02</div>
+      <div class="t-title">Sequência do Evento · 05/06/2026</div>
+    </div>
+  </div>
+  <div class="s3-body">
+    <div class="seq-item anim">
+      <img src="img1.png" alt="00:21:05-15">
+      <div class="seq-ov">
+        <div class="seq-time">00:21:05 – 00:21:15</div>
+        <div class="seq-desc">Representante trafega com a transpaleteira carregada com 2 contêineres de resíduos e se posiciona para a manobra de estacionamento.</div>
+      </div>
+    </div>
+    <div class="seq-item crit anim">
+      <img src="img2.png" alt="00:21:16-17">
+      <div class="seq-ov">
+        <div class="seq-time">00:21:16 – 00:21:17</div>
+        <div class="seq-desc">Ao iniciar a manobra, um contêiner tomba na máquina. A representante movimenta a perna direita para fora da máquina.</div>
+      </div>
+    </div>
+    <div class="seq-item crit anim">
+      <img src="img3.png" alt="00:21:18-22">
+      <div class="seq-ov">
+        <div class="seq-time">00:21:18 – 00:21:22</div>
+        <div class="seq-desc">Com a máquina ainda em movimento, ela prensa o pé e tornozelo da representante. Colaborador da limpeza alerta todos.</div>
+      </div>
+    </div>
+    <div class="seq-item anim">
+      <img src="img4.png" alt="00:21:54-23:27">
+      <div class="seq-ov">
+        <div class="seq-time">00:21:54 – 00:23:27</div>
+        <div class="seq-desc">Vários colaboradores correm para ajudar. A representante é colocada em cadeira de rodas e levada ao ambulatório.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4 · ZOOM DO LOCAL -->
+<div class="slide" id="s4">
+  <div class="s4-top">
+    <div class="t-num">⚠</div>
+    <div>
+      <div class="t-eye">Destaque Visual</div>
+      <div class="t-title">Local Exato do Acidente</div>
+    </div>
+  </div>
+  <div class="s4-body">
+    <div class="s4-left">
+      <div class="cap anim">Visão Geral · Área Marcada</div>
+      <img class="anim" src="zoom.png" alt="Visão geral">
+    </div>
+    <div class="s4-right">
+      <div class="cap anim">⚠ Zoom · Local do Tombamento</div>
+      <img class="anim" src="over.png" alt="Zoom acidente">
+    </div>
+  </div>
+  <div class="s4-note anim">
+    <strong>Ponto crítico às 00:21:16:</strong> É nesta área — entre os contêineres de resíduos e a transpaleteira — que o contentor tombou sobre a representante durante a manobra de estacionamento, prensando o pé e tornozelo.
+  </div>
+</div>
+
+<!-- SLIDE 5 · ANÁLISE -->
+<div class="slide" id="s5">
+  <div class="s5-left">
+    <h2 class="anim">Análise<br>do<br>Evento</h2>
+    <div class="s5-data anim">
+      <div class="s5-row"><span class="s5-row-lbl">Data / Hora</span><span class="s5-row-val">05/06/2026 · 00h21min</span></div>
+      <div class="s5-row"><span class="s5-row-lbl">Local</span><span class="s5-row-val">BRSP10</span></div>
+      <div class="s5-row"><span class="s5-row-lbl">Máquina</span><span class="s5-row-val">Transpaleteira Elétrica</span></div>
+      <div class="s5-row"><span class="s5-row-lbl">Carga</span><span class="s5-row-val">2 contêineres de resíduos</span></div>
+      <div class="s5-row"><span class="s5-row-lbl">Consequência</span><span class="s5-row-val danger">⚠ Lesão — Pé e Tornozelo</span></div>
+    </div>
+  </div>
+  <div class="s5-right">
+    <div class="anim">
+      <div class="s5-sec-lbl">O que aconteceu</div>
+      <p class="s5-text">
+        A representante realizava a movimentação de 2 contêineres de resíduos com a transpaleteira quando foi se posicionar para estacionar. <strong>O contentor não estava amarrado com cinta de segurança.</strong><br><br>
+        Ao iniciar a manobra às 00:21:16, <strong>um contêiner tombou sobre a máquina.</strong> A representante movimentou a perna para fora — como a máquina ainda estava em movimento, <strong>o pé e tornozelo foram prensados.</strong> Após o tombamento, a representante continuou movimentando o equipamento em vez de parar imediatamente a máquina.
+      </p>
+    </div>
+    <div class="pot-row anim">
+      <span class="pot-chip">Tombamento da carga</span>
+      <span class="pot-chip">Colisão</span>
+      <span class="pot-chip">Danos materiais</span>
+      <span class="pot-chip">Atingimento de pessoas</span>
+      <span class="pot-chip">Acidente grave</span>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 6 · BARREIRAS -->
+<div class="slide" id="s6">
+  <div class="s6-top">
+    <div class="t-num">03</div>
+    <div>
+      <div class="t-eye">Etapa 03</div>
+      <div class="t-title">Onde Poderíamos Ter Evitado?</div>
+    </div>
+  </div>
+  <div class="s6-body">
+    <div class="barrier anim">
+      <div class="barrier-hd"><div class="b-num">01</div><div class="b-title">Movimentação sem amarração</div></div>
+      <div class="barrier-bd">
+        <div class="b-col"><span class="b-col-hd w">✗ O que aconteceu</span><p>O contentor foi movimentado sem cinta de segurança fixada.</p></div>
+        <div class="b-col"><span class="b-col-hd r">✓ O correto</span><ul class="b-list"><li>Conferir a fixação da carga antes da movimentação.</li><li>Garantir utilização da cinta de segurança.</li><li>Não iniciar sem a barreira implementada.</li></ul></div>
+      </div>
+    </div>
+    <div class="barrier anim">
+      <div class="barrier-hd"><div class="b-num">02</div><div class="b-title">Perda de estabilidade sem reação</div></div>
+      <div class="barrier-bd">
+        <div class="b-col"><span class="b-col-hd w">✗ O que aconteceu</span><p>Ao perceber o tombamento, a operadora continuou movimentando o equipamento.</p></div>
+        <div class="b-col"><span class="b-col-hd r">✓ O correto</span><ul class="b-list"><li>Parar imediatamente a máquina.</li><li>Manter controle do equipamento.</li><li>Avaliar a situação antes de prosseguir.</li></ul></div>
+      </div>
+    </div>
+    <div class="barrier anim">
+      <div class="barrier-hd"><div class="b-num">03</div><div class="b-title">Continuação após a anormalidade</div></div>
+      <div class="barrier-bd">
+        <div class="b-col"><span class="b-col-hd w">✗ O que aconteceu</span><p>A movimentação continuou mesmo após o tombamento identificado.</p></div>
+        <div class="b-col"><span class="b-col-hd r">✓ O correto</span><ul class="b-list"><li>Realizar parada segura.</li><li>Isolar a área se necessário.</li><li>Comunicar liderança.</li><li>Seguir procedimento operacional.</li></ul></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 7 · SEQUÊNCIA CORRETA -->
+<div class="slide" id="s7">
+  <div class="s7-top">
+    <div class="t-num">04</div>
+    <div>
+      <div class="t-eye">Etapa 04</div>
+      <div class="t-title">Como Deveria Ter Acontecido?</div>
+    </div>
+  </div>
+  <div class="s7-body">
+    <div class="step-card prep anim"><div class="step-n">1</div><div class="step-txt">Inspecionar o equipamento.</div><span class="step-tag prep">Preparação</span></div>
+    <div class="step-card prep anim"><div class="step-n">2</div><div class="step-txt">Inspecionar o contentor.</div><span class="step-tag prep">Preparação</span></div>
+    <div class="step-card prep anim"><div class="step-n">3</div><div class="step-txt">Verificar amarração da carga.</div><span class="step-tag prep">Preparação</span></div>
+    <div class="step-card prep anim"><div class="step-n">4</div><div class="step-txt">Confirmar estabilidade.</div><span class="step-tag prep">Preparação</span></div>
+    <div class="step-card exec anim"><div class="step-n">5</div><div class="step-txt">Iniciar movimentação.</div><span class="step-tag exec">Execução</span></div>
+    <div class="step-card exec anim"><div class="step-n">6</div><div class="step-txt">Identificar qualquer anormalidade.</div><span class="step-tag exec">Execução</span></div>
+    <div class="step-card react anim"><div class="step-n">7</div><div class="step-txt">Parar imediatamente a máquina.</div><span class="step-tag react">Reação</span></div>
+    <div class="step-card react anim"><div class="step-n">8</div><div class="step-txt">Avaliar a condição encontrada.</div><span class="step-tag react">Reação</span></div>
+    <div class="step-card react anim"><div class="step-n">9</div><div class="step-txt">Corrigir a anormalidade.</div><span class="step-tag react">Reação</span></div>
+    <div class="step-card resume anim"><div class="step-n">10</div><div class="step-txt">Retomar somente após eliminação do risco.</div><span class="step-tag resume">Retomada</span></div>
+  </div>
+</div>
+
+<!-- SLIDE 8 · MENSAGEM FINAL -->
+<div class="slide" id="s8">
+  <div class="s8c">
+    <div class="s8-thankyou">OBRIGADO(A) PELA ATENÇÃO</div>
+    <div class="s8-divider"></div>
+    <div class="s8-eye">Mensagem Final</div>
+    <div class="s8-quote">PARE.<br>AVALIE.<br>CONTROLE O RISCO.<br>CONTINUE SOMENTE<br>QUANDO FOR SEGURO.</div>
+    <div class="s8-sub">Segurança não depende apenas da habilidade de operar. Depende da capacidade de reconhecer uma anormalidade e interromper a operação antes que ela se transforme em acidente.</div>
+    <div class="s8-code">BRSP10 · 05/06/2026 · Transpaleteira · Contentor de Resíduos</div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<nav class="nav">
+  <button class="nav-btn" onclick="go(-1)">&#8592;</button>
+  <div class="nav-dots" id="dots"></div>
+  <div class="nav-counter" id="counter">1 / 8</div>
+  <button class="nav-btn" onclick="go(1)">&#8594;</button>
+</nav>
+<div class="key-hint">← → NAVEGAR · ESC TELA CHEIA</div>
+
+<script>
+// Video: load from local file or same folder
+(function(){
+  // Try same-folder mp4 first
+  const tryLocal = ['acidente.mp4','Design_sem_nome__1_.mp4'];
+  const heroVid = document.getElementById('heroVid');
+  const mainVid = document.getElementById('mainVid');
+
+  // Show video picker UI
+  const picker = document.getElementById('vid-picker');
+  if(picker) picker.style.display='flex';
+
+  document.getElementById('vid-file-input').addEventListener('change', function(e){
+    const file = e.target.files[0];
+    if(!file) return;
+    const url = URL.createObjectURL(file);
+    heroVid.src = url;
+    mainVid.src = url;
+    if(picker) picker.style.display='none';
+  });
+})();
+
+const slides=document.querySelectorAll('.slide');
+const total=slides.length;
+let cur=0;
+const dotsEl=document.getElementById('dots');
+slides.forEach((_,i)=>{
+  const d=document.createElement('div');
+  d.className='nav-dot'+(i===0?' active':'');
+  d.onclick=()=>goTo(i);
+  dotsEl.appendChild(d);
+});
+function goTo(n){
+  slides[cur].classList.remove('active');
+  dotsEl.children[cur].classList.remove('active');
+  cur=(n+total)%total;
+  slides[cur].classList.add('active');
+  dotsEl.children[cur].classList.add('active');
+  document.getElementById('counter').textContent=(cur+1)+' / '+total;
+  slides[cur].querySelectorAll('.anim').forEach(el=>{el.style.animation='none';el.offsetHeight;el.style.animation='';});
+}
+function go(d){goTo(cur+d);}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' ') go(1);
+  if(e.key==='ArrowLeft') go(-1);
+  if(e.key==='Escape') document.documentElement.requestFullscreen?.();
+});
+let tx=0;
+document.addEventListener('touchstart',e=>tx=e.touches[0].clientX,{passive:true});
+document.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>50)go(dx<0?1:-1);},{passive:true});
+
+// LIGHTBOX
+function openLb(src){
+  document.getElementById('lb-img').src=src;
+  document.getElementById('lb').classList.add('open');
+}
+function closeLb(){
+  document.getElementById('lb').classList.remove('open');
+  document.getElementById('lb-img').src='';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLb();});
+// Attach click to all seq-item images
+document.querySelectorAll('.seq-item img').forEach(img=>{
+  img.addEventListener('click',e=>{e.stopPropagation();openLb(img.src);});
+});
+// Also attach to s4 images
+document.querySelectorAll('#s4 img').forEach(img=>{
+  img.style.cursor='zoom-in';
+  img.addEventListener('click',e=>{e.stopPropagation();openLb(img.src);});
+});
+</script>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lb" onclick="closeLb()">
+  <div class="lb-close" onclick="closeLb()">✕</div>
+  <img id="lb-img" src="" alt="">
+</div>
+
+<!-- VIDEO PICKER -->
+<div id="vid-picker" style="
+  display:flex; position:fixed; inset:0; z-index:9998;
+  background:rgba(8,8,8,.96); flex-direction:column;
+  align-items:center; justify-content:center; gap:20px;
+  font-family:'Montserrat',sans-serif;
+">
+  <div style="font-size:11px;letter-spacing:4px;color:#FFE600;text-transform:uppercase;">Carregar Vídeo</div>
+  <div style="font-size:32px;font-weight:900;color:#fff;text-align:center;max-width:600px;line-height:1.1;">
+    Selecione o arquivo<br>do vídeo para continuar
+  </div>
+  <div style="font-size:13px;color:#888;text-align:center;">
+    DC-000_-_066 ... .mp4 ou Design_sem_nome__1_.mp4
+  </div>
+  <label style="
+    background:#FFE600; color:#000; font-weight:900;
+    font-size:14px; letter-spacing:2px; padding:16px 40px;
+    cursor:pointer; text-transform:uppercase;
+  ">
+    📁 Selecionar Vídeo
+    <input id="vid-file-input" type="file" accept="video/mp4,video/*" style="display:none">
+  </label>
+  <div style="font-size:11px;color:#444;margin-top:8px;">O vídeo não é enviado para nenhum servidor — fica apenas no seu navegador.</div>
+</div>
+</body>
+</html>
